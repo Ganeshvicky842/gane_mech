@@ -1,0 +1,26 @@
+{
+  "info": { "name": "OmegaNexora Team 3 C16-C22", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "customerToken", "value": "" },
+    { "key": "providerToken", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "requestId", "value": "" },
+    { "key": "providerId", "value": "" }
+  ],
+  "item": [
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Customer Login", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\"login\":\"customer@omeganexora.test\",\"password\":\"Password123!\"}"}, "url": "{{baseUrl}}/auth/login" } },
+    { "name": "Provider Login", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\"login\":\"mechanic@omeganexora.test\",\"password\":\"Password123!\"}"}, "url": "{{baseUrl}}/auth/login" } },
+    { "name": "Admin Login", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\"login\":\"admin@omeganexora.test\",\"password\":\"Password123!\"}"}, "url": "{{baseUrl}}/auth/login" } },
+    { "name": "C16 - Match", "request": { "method": "POST", "header": [{"key":"Authorization","value":"Bearer {{customerToken}}"}], "url": "{{baseUrl}}/requests/{{requestId}}/match" } },
+    { "name": "Candidates", "request": { "method": "GET", "header": [{"key":"Authorization","value":"Bearer {{customerToken}}"}], "url": "{{baseUrl}}/requests/{{requestId}}/candidates" } },
+    { "name": "C16/C17 - Auto Assign Best Eligible Mechanic", "request": { "method": "POST", "header": [{"key":"Authorization","value":"Bearer {{adminToken}}"}], "url": "{{baseUrl}}/requests/{{requestId}}/auto-assign" } },
+    { "name": "C17 - Assign", "request": { "method": "POST", "header": [{"key":"Authorization","value":"Bearer {{adminToken}}"},{"key":"Content-Type","value":"application/json"}], "body":{"mode":"raw","raw":"{\"providerId\":\"{{providerId}}\"}"}, "url":"{{baseUrl}}/requests/{{requestId}}/assign" } },
+    { "name": "C19 - Provider Location 1", "request": { "method": "POST", "header": [{"key":"Authorization","value":"Bearer {{providerToken}}"},{"key":"Content-Type","value":"application/json"}], "body":{"mode":"raw","raw":"{\"lat\":17.438,\"lng\":78.385,\"accuracyMeters\":20}"}, "url":"{{baseUrl}}/requests/{{requestId}}/location" } },
+    { "name": "C20 - Chat Message", "request": { "method":"POST","header":[{"key":"Authorization","value":"Bearer {{customerToken}}"},{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"type\":\"TEXT\",\"text\":\"I am near the main entrance.\"}"},"url":"{{baseUrl}}/requests/{{requestId}}/chat/messages" } },
+    { "name": "C21 - Arrived", "request": { "method":"POST","header":[{"key":"Authorization","value":"Bearer {{providerToken}}"}],"url":"{{baseUrl}}/requests/{{requestId}}/arrived" } },
+    { "name": "C22 - Start Service / Team 4 Handoff", "request": { "method":"POST","header":[{"key":"Authorization","value":"Bearer {{providerToken}}"}],"url":"{{baseUrl}}/requests/{{requestId}}/service-start" } },
+    { "name": "Status", "request": { "method":"GET","header":[{"key":"Authorization","value":"Bearer {{customerToken}}"}],"url":"{{baseUrl}}/requests/{{requestId}}/status" } }
+  ]
+}
